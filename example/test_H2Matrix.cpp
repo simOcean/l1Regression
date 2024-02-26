@@ -12,9 +12,9 @@
 #include <Eigen/Dense>
 #include <iostream>
 
-#include "../FMCA/CovarianceKernel"
-#include "../FMCA/H2Matrix"
-#include "../FMCA/src/util/Tictoc.h"
+#include "FMCA/CovarianceKernel"
+#include "FMCA/H2Matrix"
+#include "FMCA/src/util/Tictoc.h"
 
 #define NPTS 1000000
 #define DIM 2
