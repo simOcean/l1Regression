@@ -1,53 +1,25 @@
 cmake_minimum_required(VERSION 3.21)
 project(KernelRR CXX )
 
-message(STATUS "Installation standalone of FMCA with cmake")
+message(STATUS "ell1 Regression based on FMCA")
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
-
-
-if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.18.0")
-  find_package(Python 3.10 COMPONENTS Interpreter Development.Module Development.Embed REQUIRED)
-else()
-  find_package(Python 3.10 COMPONENTS Interpreter Development REQUIRED)
-endif()
 find_package(Eigen3 REQUIRED)
 
-
-find_package(pybind11 REQUIRED)
-
+message(" include Eigen ${EIGEN3_INCLUDE_DIR}")
 include_directories(${EIGEN3_INCLUDE_DIR})
 message("${CMAKE_MODULE_PATH}")
-message("${EIGEN3_INCLUDE_DIR}")
 
-set (FMCA_PATH ${PROJECT_SOURCE_DIR}/fmca)
-message("${PROJECT_SOURCE_DIR}")
+# we set the include directory the submodule 
+set (FMCA_PATH ${CMAKE_SOURCE_DIR}/fmca/FMCA)
 
-set(CMAKE_CXX_FLAGS "-std=c++11 -I${FMCA_PATH}")
+message("The project source directory: ${CMAKE_SOURCE_DIR}")
+
+set(CMAKE_CXX_FLAGS "-O3 -std=c++17 -I${FMCA_PATH}")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fopenmp")
-#-DCMAKE_OSX_ARCHITECTURES=x86_64
-set( PROJECT_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
-include_directories("${PROJECT_SOURCE_DIR}/fmca")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fopenmp -std=c++17")
 
+include_directories("${CMAKE_SOURCE_DIR}/fmca")
 
-add_subdirectory(fmca/tests)
-add_subdirectory(fmca/py)
-enable_testing()
-
-
-# Installing the library FMCA 
-set(FMCA "${PROJECT_NAME_SUBMODULE}")
-install(TARGETS ${PROJECT_NAME_SUBMODULE}
-        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME_SUBMODULE}"
-        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME_SUBMODULE}"
-        PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME_SUBMODULE}"
-        PRIVATE_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME_SUBMODULE}"
-        INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME_SUBMODULE}")
-
-
-install(DIRECTORY "${CMAKE_SOURCE_DIR}/fmca/FMCA/" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME_SUBMODULE}")
-
-install(DIRECTORY "${CMAKE_SOURCE_DIR}/fmca/py/" DESTINATION "${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME_SUBMODULE}" FILES_MATCHING PATTERN "*.ipynb")
+add_subdirectory(${CMAKE_SOURCE_DIR}/example)
