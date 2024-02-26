@@ -1,0 +1,1 @@
+docker run -it -v C:\Users\david\Documents\EigenGPMicheal\fmcaRefurbish\kernel:/app alpine-vs

@@ -1,0 +1,10 @@
+version: 'latest'
+services:
+  alpine:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    stdin_open: true
+    tty: true
